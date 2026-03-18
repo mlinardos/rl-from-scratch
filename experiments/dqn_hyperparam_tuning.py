@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import os
 import numpy as np
 from dataclasses import replace
 import gymnasium as gym
@@ -51,25 +52,27 @@ def main():
     baseline_agent = DQNAgent(state_size, action_size, device, config)
     _, baseline_epochs = train_dqn(env, baseline_agent, config, num_episodes=500)
 
+    os.makedirs("figures", exist_ok=True)
+
     run_sweep(env, config, device,
               "target_update_freq", [50, 500, 1000], baseline_epochs,
               "Target Network Update Frequency Comparison",
-              "acrobot_target_update_sensitivity.png")
+              "figures/acrobot_target_update_sensitivity.png")
 
     run_sweep(env, config, device,
               "replay_memory_size", [1000, 3000, 5000], baseline_epochs,
               "Replay Memory Size Comparison",
-              "acrobot_memory_size_sensitivity.png")
+              "figures/acrobot_memory_size_sensitivity.png")
 
     run_sweep(env, config, device,
               "epsilon_decay_steps", [500, 5000, 10000], baseline_epochs,
               "Epsilon Decay Steps Comparison",
-              "acrobot_epsilon_decay_sensitivity.png")
+              "figures/acrobot_epsilon_decay_sensitivity.png")
 
     run_sweep(env, config, device,
               "learning_rate", [0.00001, 0.0001, 0.001], baseline_epochs,
               "Learning Rate Comparison",
-              "acrobot_learning_rate_sensitivity.png")
+              "figures/acrobot_learning_rate_sensitivity.png")
 
     env.close()
 

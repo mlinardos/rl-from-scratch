@@ -2,6 +2,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+import os
 import gymnasium as gym
 import matplotlib.pyplot as plt
 
@@ -28,6 +29,8 @@ def main():
     dueling_agent = DQNAgent(state_size, action_size, device, config, network_type="dueling")
     _, dueling_epochs = train_dqn(env, dueling_agent, config, num_episodes=500)
 
+    os.makedirs("figures", exist_ok=True)
+
     plt.figure(figsize=(12, 8))
     plt.plot(range(len(dqn_epochs)), dqn_epochs, label='Standard DQN')
     plt.plot(range(len(dueling_epochs)), dueling_epochs, label='Dueling DQN')
@@ -36,7 +39,7 @@ def main():
     plt.ylabel('Average Score')
     plt.axhline(y=-100, color='r', linestyle='--', label='Solving threshold (-100)')
     plt.legend()
-    plt.savefig('dqn_vs_dueling_dqn_comparison.png')
+    plt.savefig('figures/dqn_vs_dueling_dqn_comparison.png')
     plt.show()
 
     env.close()
