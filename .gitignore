@@ -9,9 +9,6 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Output images
-*.png
-figures/
 
 # IDE
 .idea/
